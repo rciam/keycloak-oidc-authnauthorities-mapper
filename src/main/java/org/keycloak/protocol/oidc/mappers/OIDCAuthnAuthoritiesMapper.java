@@ -32,7 +32,7 @@ public class OIDCAuthnAuthoritiesMapper extends AbstractOIDCProtocolMapper imple
         OIDCAttributeMapperHelper.addAttributeConfig(configProperties, OIDCAuthnAuthoritiesMapper.class);
     }
 
-    public static final String PROVIDER_ID = "oidc-oidc-authnauthorities-mapper";
+    public static final String PROVIDER_ID = "oidc-authnauthorities-mapper";
 
 
     public List<ProviderConfigProperty> getConfigProperties() {
