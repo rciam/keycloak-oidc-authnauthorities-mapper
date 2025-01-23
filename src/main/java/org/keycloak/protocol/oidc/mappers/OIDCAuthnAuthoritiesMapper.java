@@ -74,12 +74,6 @@ public class OIDCAuthnAuthoritiesMapper extends AbstractOIDCProtocolMapper imple
     private LinkedList<AuthnAuthorityRepresentation> getAuthnAuthorities(UserSessionModel userSession) {
         LinkedList<AuthnAuthorityRepresentation> authnAuthorities = new LinkedList<>();
         String previousAauthnAuthorities = userSession.getNote(IDENTITY_PROVIDER_AUTHN_AUTHORITIES);
-        if (userSession.getNote(Details.IDENTITY_PROVIDER) != null) {
-            RealmModel realm = userSession.getRealm();
-            IdentityProviderModel idp = realm.getIdentityProviderByAlias(userSession.getNote(Details.IDENTITY_PROVIDER));
-            //add first authn autohrities
-            authnAuthorities.add(new AuthnAuthorityRepresentation(userSession.getNote(IDENTITY_PROVIDER_ID), getIdPName(idp)));
-        }
         if (previousAauthnAuthorities != null) {
             try {
                 authnAuthorities.addAll(JsonSerialization.readValue(previousAauthnAuthorities, new TypeReference<LinkedList<AuthnAuthorityRepresentation>>() {
@@ -88,6 +82,12 @@ public class OIDCAuthnAuthoritiesMapper extends AbstractOIDCProtocolMapper imple
                 logger.warn("Problem decoding identity_provider_authnAuthorities");
                 e.printStackTrace();
             }
+        }
+        if (userSession.getNote(Details.IDENTITY_PROVIDER) != null) {
+            RealmModel realm = userSession.getRealm();
+            IdentityProviderModel idp = realm.getIdentityProviderByAlias(userSession.getNote(Details.IDENTITY_PROVIDER));
+            //add first authn autohrities
+            authnAuthorities.add(new AuthnAuthorityRepresentation(userSession.getNote(IDENTITY_PROVIDER_ID), getIdPName(idp)));
         }
         return authnAuthorities;
     }
